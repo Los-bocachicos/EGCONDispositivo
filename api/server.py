@@ -11,7 +11,7 @@ def getAll():
 
 @app.route('/device', methods=['POST'])
 def post():
-    body = request.json1
+    body = request.json
     return Device.create(body)
 
-app.run(port=8080,debug=True)
+app.run(port=8080,debug=True, host="0.0.0.0")
