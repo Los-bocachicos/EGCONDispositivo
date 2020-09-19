@@ -1,0 +1,10 @@
+CREATE DATABASE EGCON;
+
+CREATE TABLE Device (
+    name VARCHAR(100) NOT NULL,
+    code VARCHAR(20) NOT NULL UNIQUE,
+    type ENUM('SENSOR', 'ACTUATOR') NOT NULL,
+    reference VARCHAR(100) NOT NULL,
+    location ENUM('NORTH', 'EAST', 'SOUTH', 'WEST') NOT NULL,
+    params JSON
+);
