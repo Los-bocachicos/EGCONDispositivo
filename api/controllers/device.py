@@ -5,6 +5,7 @@ import json as json_library
 
 class Device:
 
+    @staticmethod
     def serialize_params(row: tuple):
         if row[-1] is not None:
             row_copy = list(row)
@@ -12,6 +13,7 @@ class Device:
             return tuple(row_copy)
         return row
     
+    @staticmethod
     def list():
         respose = []
         cur = cnx.cursor()
@@ -26,7 +28,8 @@ class Device:
                 respose.append(json)
         return jsonify(respose), 200
 
-    def create(body):
+    @staticmethod
+    def create(body:dict):
         data = (body['name'], body['code'], body['type'], body['reference'], body['location'], json_library.dumps(body['params']),)
         sql = "INSERT INTO device (name, code, type, reference, location, params) VALUES(%s, %s, %s, %s, %s, %s);"
         with cnx.cursor() as cur:
@@ -34,3 +37,20 @@ class Device:
         cnx.commit()
         return {"status": "ok"}, 201
 
+    @staticmethod
+    def update(id:int, body:dict):
+        data = []
+        query = "UPDATE device SET "
+        for value in body.keys():
+            if value == "params":
+                data.append(json_library.dumps(body[value]))
+            else:
+                data.append(body[value])
+            query += value + "=%s, "
+        query = query[:-2]
+        query += " WHERE id=%s"
+        data.append(int(id))
+        print(data, query)
+        with cnx.cursor() as cur:
+            cur.execute(query, data)
+        return {}, 200

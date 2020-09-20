@@ -14,4 +14,9 @@ def post():
     body = request.json
     return Device.create(body)
 
+@app.route('/device/<device_id>', methods=['PUT'])
+def put(device_id:int):
+    body = request.json
+    return Device.update(device_id, body)
+
 app.run(port=8080,debug=True, host="0.0.0.0")
