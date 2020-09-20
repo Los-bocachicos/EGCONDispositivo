@@ -53,4 +53,11 @@ class Device:
         print(data, query)
         with cnx.cursor() as cur:
             cur.execute(query, data)
-        return {}, 200
+        return {"status": "ok"}, 200
+
+    @staticmethod
+    def delete(id:int):
+        query =  "DELETE FROM device WHERE id=%s"
+        with cnx.cursor() as cur:
+            cur.execute(query, (id,))
+        return {"status": "ok"}, 200

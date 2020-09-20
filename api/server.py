@@ -19,4 +19,8 @@ def put(device_id:int):
     body = request.json
     return Device.update(device_id, body)
 
+@app.route('/device/<device_id>', methods=['DELETE'])
+def delete(device_id:int):
+    return Device.delete(device_id)
+
 app.run(port=8080,debug=True, host="0.0.0.0")
