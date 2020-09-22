@@ -1,5 +1,5 @@
 from flask import jsonify, request
-from db.db import cnx
+from api.db.db import cnx
 import json as json_library
 
 
@@ -12,7 +12,7 @@ class Device:
             row_copy[-1] = json_library.loads(row_copy[-1])
             return tuple(row_copy)
         return row
-    
+
     @staticmethod
     def list():
         respose = []
@@ -29,8 +29,9 @@ class Device:
         return jsonify(respose), 200
 
     @staticmethod
-    def create(body:dict):
-        data = (body['name'], body['code'], body['type'], body['reference'], body['location'], json_library.dumps(body['params']),)
+    def create(body: dict):
+        data = (body['name'], body['code'], body['type'], body['reference'], body['location'],
+                json_library.dumps(body['params']),)
         sql = "INSERT INTO device (name, code, type, reference, location, params) VALUES(%s, %s, %s, %s, %s, %s);"
         with cnx.cursor() as cur:
             cur.execute(sql, data)
@@ -38,7 +39,7 @@ class Device:
         return {"status": "ok"}, 201
 
     @staticmethod
-    def update(id:int, body:dict):
+    def update(id: int, body: dict):
         data = []
         query = "UPDATE device SET "
         for value in body.keys():
@@ -56,8 +57,8 @@ class Device:
         return {"status": "ok"}, 200
 
     @staticmethod
-    def delete(id:int):
-        query =  "DELETE FROM device WHERE id=%s"
+    def delete(id: int):
+        query = "DELETE FROM device WHERE id=%s"
         with cnx.cursor() as cur:
             cur.execute(query, (id,))
         return {"status": "ok"}, 200
