@@ -1,6 +1,6 @@
 from flask import Flask, request
 from flask_cors import CORS
-from api.controllers.device import Device
+from controllers.device import Device
 
 app = Flask("EG-CON-Device")
 CORS(app)
