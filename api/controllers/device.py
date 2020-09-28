@@ -1,5 +1,5 @@
 from flask import jsonify
-from db.db import cnx
+from db.db import get_connection
 import json as json_library
 
 
@@ -16,6 +16,7 @@ class Device:
     @staticmethod
     def list():
         respose = []
+        cnx = get_connection()
         with cnx.cursor() as cur:
             cur.execute("SELECT * FROM device")
             rows = cur.fetchall()
@@ -24,6 +25,7 @@ class Device:
                 registry = zip(columns, Device.serialize_params(row))
                 json = dict(registry)
                 respose.append(json)
+        cnx.close()
         return jsonify(respose), 200
 
     @staticmethod
@@ -32,9 +34,11 @@ class Device:
             data = (body['name'], body['code'], body['type'], body['reference'], body['location'],
                     json_library.dumps(body['params']),)
             sql = "INSERT INTO device (name, code, type, reference, location, params) VALUES(%s, %s, %s, %s, %s, %s);"
+            cnx = get_connection()
             with cnx.cursor() as cur:
                 cur.execute(sql, data)
                 cnx.commit()
+            cnx.close()
             return {"status": "created"}, 201
         except Exception as e:
             return {"error": str(e)}, 400
@@ -53,9 +57,11 @@ class Device:
             query = query[:-2]
             query += " WHERE id=%s"
             data.append(int(id))
+            cnx = get_connection()
             with cnx.cursor() as cur:
                 cur.execute(query, data)
                 cnx.commit()
+            cnx.close()
             return {"status": "updated"}, 200
         except Exception as e:
             return {"error": str(e)}, 400
@@ -64,9 +70,12 @@ class Device:
     def delete(id: int):
         try:
             query = "DELETE FROM device WHERE id=%s"
+            cnx = get_connection()
             with cnx.cursor() as cur:
                 cur.execute(query, (id,))
                 cnx.commit()
+            cnx.close()
             return {"status": "deleted"}, 200
         except Exception as e:
             return {"error": str(e)}, 400
+

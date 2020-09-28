@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
+
+  <!-- Bootstrap CSS -->
+  <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+        integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" rel="stylesheet">
+  <title>Dispositivo</title>
+</head>
+<body>
+<div class="container">
+  <h1>Dispositivos</h1>
+  <table class="table">
+    <thead>
+    <tr>
+      <th scope="col">Nombre</th>
+      <th scope="col">Código</th>
+      <th scope="col">Tipo</th>
+      <th scope="col">Referencia</th>
+      <th scope="col">Ubicación</th>
+      <th scope="col">Parámetros</th>
+    </tr>
+    </thead>
+    <tbody id="listDevices">
+    {% for item in devices %}
+    <tr>
+      <td>{{item['name']}}</td>
+      <td>{{item['code']}}</td>
+      <td>{{item['type']}}</td>
+      <td>{{item['reference']}}</td>
+      <td>{{item['location']}}</td>
+      <td>
+        <div class="container">
+          <ul class="list-group list-group-flush">
+            {% if item['params'] %}
+            <div>
+              {% for key in item['params'] %}
+              <li>
+                <strong>{{ key }}</strong> : {{item['params'][key]}}
+              </li>
+              {% endfor %}
+            </div>
+            {% else %}
+            <div>Sin parámetros</div>
+            {% endif %}
+          </ul>
+        </div>
+      </td>
+    </tr>
+    {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script crossorigin="anonymous"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script crossorigin="anonymous"
+        integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+        src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+<script crossorigin="anonymous"
+        integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
+        src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

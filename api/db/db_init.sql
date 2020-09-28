@@ -9,7 +9,7 @@ CREATE TABLE device (
     type ENUM('SENSOR', 'ACTUATOR') NOT NULL,
     reference VARCHAR(100) NOT NULL,
     location ENUM('NORTH', 'EAST', 'SOUTH', 'WEST') NOT NULL,
-    params JSON,
+    params VARCHAR(500),
     PRIMARY KEY (id)
 );
 
